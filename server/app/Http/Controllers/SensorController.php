@@ -3,7 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Sensor;
 use Auth;
-use Request;
+use Illuminate\Http\Request;
  
 class SensorController extends Controller {
  
@@ -24,11 +24,24 @@ class SensorController extends Controller {
     *
     * @return Response
     */
-   public function store() {
-      $sensor = new Sensor(Request::all());
+   public function store(Request $request) {
+      $sensor = new Sensor;
+	  $sensor->sensor = $request->sensor;
+	  $sensor->value = $request->value;
+	  $sensor->latitude = $request->latitude;
+	  $sensor->longitude = $request->longitude;
       $sensor->save();
       return $sensor;
    }
  
+    /**
+    * Store a newly created resource in storage.
+    *
+    * @return Response
+    */
+   public function deleteall() {      
+      Sensor::truncate();
+	  return [];
+   }
  
 }

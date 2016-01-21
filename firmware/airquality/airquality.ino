@@ -11,7 +11,7 @@
 #define MQ135_MAXRSRO 2.428 //for CO2
 #define MQ135_MINRSRO 0.358 //for CO2
 
-unsigned long SLEEP_TIME = 3000; // Sleep time between reads (in seconds)
+unsigned long SLEEP_TIME = 30000; // Sleep time between reads (in seconds)
 //VARIABLES
 //float Ro = 10000.0;    // this has to be tuned 10K Ohm
 float mq135_ro = 10000.0;    // this has to be tuned 10K Ohm
@@ -26,7 +26,7 @@ void setup() {
   pinMode(sensor, INPUT_PULLUP);
   // initialize serial:
   Serial.begin(9600);
-  RFduinoBLE.advertisementData = "FreshFreedom";
+  RFduinoBLE.advertisementData = "AirSpy";
   Serial.println("**Starting FreshFreedom**");
   // start the BLE stack
   RFduinoBLE.begin();
@@ -70,7 +70,7 @@ void loop() {
   if (valAIQ != lastAIQ) {
       lastAIQ = ceil(valAIQ);
       if(lastAIQ!=0.0){
-        RFduinoBLE.sendInt(lastAIQ);
+        RFduinoBLE.sendInt((int)lastAIQ);
       }
       Serial.print("valAIQ:");
       Serial.println(lastAIQ);

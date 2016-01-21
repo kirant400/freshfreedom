@@ -40,7 +40,7 @@
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">Freedom Fresh</div>
+				<div class="title">Air Spy</div>
 				<div class="quote">{{ Inspiring::quote() }}</div>
 			</div>
 		</div>

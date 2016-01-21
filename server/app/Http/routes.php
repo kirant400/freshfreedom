@@ -22,3 +22,4 @@ Route::controllers([
 
 Route::get('api/sensor', 'SensorController@index');
 Route::post('api/sensor', 'SensorController@store');
+Route::delete('api/sensor', 'SensorController@deleteall');
