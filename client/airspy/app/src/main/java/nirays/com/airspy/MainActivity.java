@@ -5,10 +5,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -28,6 +30,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.codeandmagic.android.gauge.GaugeView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,14 +77,54 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TabLayout.Tab tab = tabLayout.getTabAt(1);
-                tab.select();
+               // TabLayout.Tab tab = tabLayout.getTabAt(1);
+               // tab.select();
+                String file = Environment.getExternalStorageDirectory() + "/screenshot.png";
+                saveBitmap(takeScreenshot(),file);
+                shareMe(file);
             }
         });
-        startService(new Intent(this, RFduinoService.class));
-        scan();
+        //TODO: change here for BLE
+        //startService(new Intent(this, RFduinoService.class));
+        //scan();
     }
+    public Bitmap takeScreenshot() {
+        View rootView = findViewById(android.R.id.content).getRootView();
+        rootView.setDrawingCacheEnabled(true);
+        return rootView.getDrawingCache();
+    }
+    public void saveBitmap(Bitmap bitmap,String file) {
+        File imagePath = new File(file);
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.e("GREC", e.getMessage(), e);
+        } catch (IOException e) {
+            Log.e("GREC", e.getMessage(), e);
+        }
+    }
+    public  void shareMe(String file){
+        // Share Intent
+        Intent share = new Intent(Intent.ACTION_SEND);
 
+        // Type of file to share
+        share.setType("image/jpeg");
+
+
+
+        // Locate the image to Share
+        Uri uri = Uri.fromFile(new File(file));
+
+        // Pass the image into an Intnet
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+
+        // Show the social share chooser list
+        startActivity(Intent.createChooser(share, "Share Image Tutorial"));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -187,12 +234,10 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             GaugeView mGaugeView1 = (GaugeView) rootView.findViewById(R.id.gauge_view1);
-            GaugeView mGaugeView2 = (GaugeView) rootView.findViewById(R.id.gauge_view2);
-            mGaugeView1.setTargetValue((float)10.0);
-            mGaugeView2.setTargetValue((float)10.0);
+            //GaugeView mGaugeView2 = (GaugeView) rootView.findViewById(R.id.text_value);
+            mGaugeView1.setTargetValue(15);
+            //mGaugeView2.setTargetValue(42);
             return rootView;
         }
     }
@@ -211,13 +256,18 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            if(position==1){
+                return new MapsFragment();
+            } else if(position==0){
+                return  DashboardFragment.newInstance(position + 1);
+            }
             return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
             // Show 2 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -227,6 +277,8 @@ public class MainActivity extends AppCompatActivity {
                     return "Today";
                 case 1:
                     return "Map";
+                case 2:
+                    return "History";
             }
             return null;
         }
