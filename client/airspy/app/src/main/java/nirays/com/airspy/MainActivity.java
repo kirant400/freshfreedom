@@ -36,6 +36,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import nirays.com.airspy.R;
+
 public class MainActivity extends AppCompatActivity {
 
     /**

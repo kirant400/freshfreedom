@@ -26,6 +26,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import nirays.com.airspy.R;
+
 public class MapsFragment extends Fragment {
 
     private GoogleMap mMap;

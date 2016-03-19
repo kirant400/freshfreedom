@@ -33,9 +33,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import nirays.com.airspy.R;
+//import okhttp3.OkHttpClient;
+//import okhttp3.Request;
+//import okhttp3.Response;
 
 
 /**
@@ -142,12 +143,12 @@ public class DashboardFragment extends Fragment {
         // add a nice and smooth animation
         mChart_co.animateY(2500);
         String response = null;
-        try {
+        /*try {
             response = run("http://freshfreedom-appzware.rhcloud.com/api/sensor");
             Log.i("AirSpy",response);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         return rootView;
     }
@@ -250,6 +251,7 @@ public class DashboardFragment extends Fragment {
         }
         return  colors;
     }
+    /*
     OkHttpClient client = new OkHttpClient();
 
     private String run(String url) throws IOException {
@@ -259,5 +261,5 @@ public class DashboardFragment extends Fragment {
 
         Response response = client.newCall(request).execute();
         return response.body().string();
-    }
+    }*/
 }

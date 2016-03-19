@@ -5,6 +5,6 @@ use App\User;
  
  
 class Sensor extends Model {
- protected $fillable = ['sensor','value','latitude','longitude'];
+ protected $fillable = ['sensor','value','latitude','longitude','element','created_at','updated_at'];
  
 }

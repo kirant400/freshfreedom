@@ -30,6 +30,7 @@ class SensorController extends Controller {
 	  $sensor->value = $request->value;
 	  $sensor->latitude = $request->latitude;
 	  $sensor->longitude = $request->longitude;
+    $sensor->element = $request->element;
       $sensor->save();
       return $sensor;
    }
